@@ -3,6 +3,7 @@ name 'CGI-Compile';
 all_from 'lib/CGI/Compile.pm';
 readme_from 'lib/CGI/Compile.pm';
 build_requires 'Test::More';
+test_requires 'Test::Requires';
 use_test_base;
 auto_include_deps;
 author_tests('xt');

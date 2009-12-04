@@ -1,4 +1,7 @@
 Revision history for Perl extension CGI::Compile
 
+0.02  Fri Dec  4 16:55:28 GMT 2009
+        - include Test::Requires
+
 0.01  Fri Dec  4 04:56:55 2009
         - original version
