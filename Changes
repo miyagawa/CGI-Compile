@@ -1,5 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
+0.05  Fri Dec  4 21:45:36 GMT 2009
+        - Really fix the chdir bug by saving the return value of pushd
+
 0.04  Fri Dec  4 20:27:02 GMT 2009
         - Fixed more chdir stuff using File::pushd
 
