@@ -32,11 +32,12 @@ sub compile {
         "sub {",
         "CGI::initialize_globals() if defined &CGI::initialize_globals;",
         "local \$0 = '$path';",
-        "chdir '$dir';",
+        "my \$_cwd = Cwd::cwd;chdir '$dir';",
         "package $package;",
         "\n#line 1 $path\n",
         $code,
-        "\n};";
+        "\n",
+        "chdir \$_cwd;};";
 
     my $sub = do {
         no strict;
