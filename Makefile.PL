@@ -2,6 +2,7 @@ use inc::Module::Install;
 name 'CGI-Compile';
 all_from 'lib/CGI/Compile.pm';
 readme_from 'lib/CGI/Compile.pm';
+requires 'File::pushd';
 build_requires 'Test::More';
 test_requires 'Test::Requires';
 use_test_base;
