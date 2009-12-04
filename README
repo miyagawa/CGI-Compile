@@ -1,0 +1,36 @@
+NAME
+    CGI::Compile - Compile .cgi scripts to a code reference like
+    ModPerl::Registry
+
+SYNOPSIS
+      use CGI::Compile;
+      my $sub = CGI::Compile->compile("/path/to/script.cgi");
+
+DESCRIPTION
+    CGI::Compile is an utility to compile CGI scripts into a code reference
+    that can run many times on its own namespace, as long as the script is
+    ready to run on a persistent environment.
+
+RUN ON PSGI
+    Combined with CGI::Emulate::PSGI, your CGI script can be turned into a
+    persistent PSGI application like:
+
+      use CGI::Emulate::PSGI;
+      use CGI::Compile;
+
+      my $cgi_script = "/path/to/foo.cgi";
+      my $sub = CGI::Compile->compile($cgi_script);
+      my $app = CGI::Emulate::PSGI->handler($sub);
+
+      # $app is a PSGI application
+
+AUTHOR
+    Tatsuhiko Miyagawa <miyagawa@bulknews.net>
+
+LICENSE
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+SEE ALSO
+    ModPerl::RegistryCooker CGI::Emulate::PSGI
+
