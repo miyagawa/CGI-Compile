@@ -33,7 +33,7 @@ sub compile {
         "sub {",
         "CGI::initialize_globals() if defined &CGI::initialize_globals;",
         "local \$0 = '$path';",
-        "File::pushd::pushd '$dir';",
+        "my \$_dir = File::pushd::pushd '$dir';",
         "package $package;",
         "\n#line 1 $path\n",
         $code,

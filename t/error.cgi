@@ -1,0 +1,2 @@
+use CGI;
+die "foo";
