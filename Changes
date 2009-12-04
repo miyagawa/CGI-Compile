@@ -1,5 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
+0.03  Fri Dec  4 19:20:20 GMT 2009
+        - Fixed a bug with chdir
+
 0.02  Fri Dec  4 16:55:28 GMT 2009
         - include Test::Requires
 
