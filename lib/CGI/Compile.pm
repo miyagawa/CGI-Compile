@@ -10,15 +10,15 @@ use File::Spec::Functions;
 use File::pushd;
 
 sub new {
-    my $class = shift;
-    bless {
-        namespace_root => 'CGI::Compile::ROOT',
-        @_,
-    }, $class;
+    my ($class, %opts) = @_;
+
+    $opts{namespace_root} ||= 'CGI::Compile::ROOT';
+
+    bless \%opts, $class;
 }
 
 sub compile {
-    my($class, $script) = @_;
+    my($class, $script, $package) = @_;
 
     my $self = ref $class ? $class : $class->new;
 
@@ -26,23 +26,55 @@ sub compile {
     my $path = Cwd::abs_path($script);
     my $dir  = File::Basename::dirname($path);
 
-    my $package = $self->_build_package($path);
+    $package ||= $self->_build_package($path);
+ 
+    $code =~ s/^__DATA__\n(.*)//ms;
+    my $data = $1;
 
     # TODO handle nph and command line switches?
     my $eval = join '',
+        'my $cgi_exited = "EXIT\n";
+        BEGIN { *CORE::GLOBAL::exit = sub (;$) {
+            die [ $cgi_exited, $_[0] || 0 ];
+        } }',
+        "package $package;",
         "sub {",
         "CGI::initialize_globals() if defined &CGI::initialize_globals;",
         "local \$0 = '$path';",
         "my \$_dir = File::pushd::pushd '$dir';",
-        "package $package;",
+        'local *DATA;',
+        q{open DATA, '<', \$data;},
+        'local %SIG;',
+        'my $rv = eval {',
         "\n#line 1 $path\n",
         $code,
-        "\n};";
+        "\n};",
+        q{
+            return $rv unless $@;
+            die $@ if $@ and not (
+              ref($@) eq 'ARRAY' and
+              $@->[0] eq $cgi_exited
+            );
+            die "exited nonzero: $@->[1]" if $@->[1] != 0;
+            return $rv;
+        },
+        '};';
+
 
     my $sub = do {
         no strict;
         no warnings;
-        eval $eval or die $@;
+
+        my $orig_exit = \*CORE::GLOBAL::exit;
+        my %orig_sig  = %SIG;
+
+        my $code = eval $eval;
+
+        *CORE::GLOBAL::exit = $orig_exit;
+        %SIG = %orig_sig;
+
+        die "Could not compile $script: $@" if $@;
+        $code;
     };
 
     return $sub;
@@ -52,7 +84,7 @@ sub _read_source {
     my($self, $file) = @_;
 
     open my $fh, "<", $file or die "$file: $!";
-    return join '', <$fh>;
+    return do { local $/; <$fh> };
 }
 
 sub _build_package {
@@ -113,7 +145,15 @@ into a persistent PSGI application like:
 
 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
 
-=head1 LICENSE
+=head1 CONTRIBUTORS
+
+Rafael Kitover E<lt>rkitover@cpan.orgE<gt>
+
+Hans Dieter Pearcey E<lt>hdp@cpan.orgE<gt>
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright (c) 2009 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
