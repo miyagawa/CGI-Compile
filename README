@@ -27,7 +27,14 @@ RUN ON PSGI
 AUTHOR
     Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
-LICENSE
+CONTRIBUTORS
+    Rafael Kitover <rkitover@cpan.org>
+
+    Hans Dieter Pearcey <hdp@cpan.org>
+
+COPYRIGHT & LICENSE
+    Copyright (c) 2009 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
+
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
 
