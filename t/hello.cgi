@@ -1,7 +1,9 @@
 use CGI;
 $COUNTER++;
 
-$SIG{__DIE__} = sub { 'dummy' };
+BEGIN { $SIG{USR1} = 'IGNORE'; }
+
+$SIG{USR1} = 'IGNORE';
 
 my $q = CGI->new;
 
