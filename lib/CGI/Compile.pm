@@ -44,7 +44,7 @@ sub compile {
         "my \$_dir = File::pushd::pushd '$dir';",
         'local *DATA;',
         q{open DATA, '<', \$data;},
-        'local %SIG;',
+        'local *SIG = +{ %SIG };',
         'my $rv = eval {',
         "\n#line 1 $path\n",
         $code,
