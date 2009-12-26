@@ -6,6 +6,7 @@ my %orig_sig = %SIG;
 my $sub = CGI::Compile->compile("t/hello.cgi");
 
 is_deeply \%SIG, \%orig_sig, '%SIG preserved during compile';
+%SIG = %orig_sig;
 
 $ENV{REQUEST_METHOD} = 'GET';
 $ENV{QUERY_STRING} = 'name=foo';

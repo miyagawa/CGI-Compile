@@ -1,6 +1,8 @@
 use CGI;
 $COUNTER++;
 
+BEGIN { $SIG{USR1} = 'IGNORE'; }
+
 $SIG{USR1} = 'IGNORE';
 
 my $q = CGI->new;
