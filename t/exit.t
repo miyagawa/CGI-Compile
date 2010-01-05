@@ -1,3 +1,4 @@
+use strict;
 use Test::More tests => 1;
 use CGI::Compile;
 use lib "t";
