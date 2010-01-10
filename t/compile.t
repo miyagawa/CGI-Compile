@@ -1,6 +1,9 @@
 use Test::More;
 use CGI::Compile;
 
+plan skip_all => "perl < 5.8.9 has a bug in restoring default signals"
+    unless eval q{use 5.008009; 1};
+
 my %orig_sig = %SIG;
 
 my $sub = CGI::Compile->compile("t/hello.cgi");
