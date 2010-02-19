@@ -1,15 +1,15 @@
 use Test::More;
 use CGI::Compile;
 
-plan skip_all => "perl < 5.8.9 has a bug in restoring default signals"
-    unless eval q{use 5.008009; 1};
-
 my %orig_sig = %SIG;
+
+# perl < 5.8.9 won't set a %SIG entry to undef, it sets it to ''
+%orig_sig = map { defined $_ ? $_ : '' } %orig_sig
+    if $] < 5.008009;
 
 my $sub = CGI::Compile->compile("t/hello.cgi");
 
 is_deeply \%SIG, \%orig_sig, '%SIG preserved during compile';
-%SIG = %orig_sig;
 
 $ENV{REQUEST_METHOD} = 'GET';
 $ENV{QUERY_STRING} = 'name=foo';
@@ -31,6 +31,7 @@ done_testing;
 
 
 sub capture_out {
+    no warnings 'uninitialized';
     my $code = shift;
 
     my $stdout;

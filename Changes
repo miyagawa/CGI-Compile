@@ -1,5 +1,7 @@
 Revision history for Perl extension CGI::Compile
 
+        - make compile.t run on Perl < 5.8.9 (rkitover)
+
 0.08  Sun Jan 10 09:30:52 PST 2010
         - Skip compile.t with Perl < 5.8.9 since it appears to have in %SIG restore (Andreask Koenig)
 
