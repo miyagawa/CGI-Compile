@@ -17,6 +17,18 @@ sub new {
     bless \%opts, $class;
 }
 
+our $USE_REAL_EXIT;
+BEGIN {
+    $USE_REAL_EXIT = 1;
+    *CORE::GLOBAL::exit = sub (;$) {
+        my $exit_code = shift;
+
+        CORE::exit(defined $exit_code ? $exit_code : 0) if $USE_REAL_EXIT;
+
+        die [ "EXIT\n", $exit_code || 0 ]
+    };
+}
+
 sub compile {
     my($class, $script, $package) = @_;
 
@@ -33,13 +45,10 @@ sub compile {
 
     # TODO handle nph and command line switches?
     my $eval = join '',
-        'my $cgi_exited = "EXIT\n";
-        BEGIN { *CORE::GLOBAL::exit = sub (;$) {
-            die [ $cgi_exited, $_[0] || 0 ];
-        } }',
         "package $package;",
         "sub {",
-        "CGI::initialize_globals() if defined &CGI::initialize_globals;",
+        'local $CGI::Compile::USE_REAL_EXIT = 0;',
+        "\nCGI::initialize_globals() if defined &CGI::initialize_globals;",
         "local \$0 = '$path';",
         "my \$_dir = File::pushd::pushd '$dir';",
         'local *DATA;',
@@ -53,7 +62,7 @@ sub compile {
             return $rv unless $@;
             die $@ if $@ and not (
               ref($@) eq 'ARRAY' and
-              $@->[0] eq $cgi_exited
+              $@->[0] eq "EXIT\n"
             );
             die "exited nonzero: $@->[1]" if $@->[1] != 0;
             return $rv;
@@ -65,15 +74,16 @@ sub compile {
         no strict;
         no warnings;
 
-        my $orig_exit = \*CORE::GLOBAL::exit;
         my %orig_sig  = %SIG;
+        local $USE_REAL_EXIT = 0;
 
         my $code = eval $eval;
+        my $exception = $@;
 
-        *CORE::GLOBAL::exit = $orig_exit;
         %SIG = %orig_sig;
 
-        die "Could not compile $script: $@" if $@;
+        die "Could not compile $script: $exception" if $exception;
+
         $code;
     };
 
@@ -126,6 +136,9 @@ CGI::Compile - Compile .cgi scripts to a code reference like ModPerl::Registry
 CGI::Compile is an utility to compile CGI scripts into a code
 reference that can run many times on its own namespace, as long as the
 script is ready to run on a persistent environment.
+
+B<NOTE:> for best results, load L<CGI::Compile> before any modules used by your
+CGIs.
 
 =head1 RUN ON PSGI
 

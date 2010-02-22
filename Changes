@@ -1,5 +1,6 @@
 Revision history for Perl extension CGI::Compile
 
+        - support exit() in use'd modules (rkitover)
         - make compile.t run on Perl < 5.8.9 (rkitover)
 
 0.08  Sun Jan 10 09:30:52 PST 2010
