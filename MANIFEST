@@ -29,6 +29,9 @@ t/00_compile.t
 t/chdir.t
 t/compile.t
 t/error.cgi
+t/exit.cgi
+t/Exit.pm
+t/exit.t
 t/hello.cgi
 t/psgi.t
 xt/perlcritic.t

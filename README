@@ -11,6 +11,9 @@ DESCRIPTION
     that can run many times on its own namespace, as long as the script is
     ready to run on a persistent environment.
 
+    NOTE: for best results, load CGI::Compile before any modules used by
+    your CGIs.
+
 RUN ON PSGI
     Combined with CGI::Emulate::PSGI, your CGI script can be turned into a
     persistent PSGI application like:
