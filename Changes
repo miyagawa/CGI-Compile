@@ -1,5 +1,9 @@
 Revision history for Perl extension CGI::Compile
 
+0.10  Mon Feb 22 07:19:00 PST 2010
+        - repackaging the distribution with Module::Install 0.92 because 0.93's
+          author_tests support is broken. https://rt.cpan.org/Public/Bug/Display.html?id=54878
+
 0.09  Mon Feb 22 02:51:56 PST 2010
         - support exit() in use'd modules (rkitover)
         - make compile.t run on Perl < 5.8.9 (rkitover)
