@@ -26,8 +26,12 @@ MANIFEST			This list of files
 META.yml
 README
 t/00_compile.t
+t/Capture.pm
 t/chdir.t
 t/compile.t
+t/data.cgi
+t/data_end.t
+t/end.cgi
 t/error.cgi
 t/exit.cgi
 t/Exit.pm

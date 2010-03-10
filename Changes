@@ -1,5 +1,9 @@
 Revision history for Perl extension CGI::Compile
 
+0.11  Wed Mar 10 23:57:55 JST 2010
+        - Strip __END__ (lestrrat)
+        - Refactored tests and added an unit test for __DATA__ and __END__
+
 0.10  Mon Feb 22 07:19:00 PST 2010
         - repackaging the distribution with Module::Install 0.92 because 0.93's
           author_tests support is broken. https://rt.cpan.org/Public/Bug/Display.html?id=54878
