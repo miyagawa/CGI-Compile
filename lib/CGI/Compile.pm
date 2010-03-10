@@ -40,6 +40,7 @@ sub compile {
 
     $package ||= $self->_build_package($path);
  
+    $code =~ s/^__END__\n.*//ms;
     $code =~ s/^__DATA__\n(.*)//ms;
     my $data = $1;
 
