@@ -9,7 +9,7 @@ my $sub = CGI::Compile->compile("t/exit.cgi");
 my $out = capture_out($sub);
 like $out, qr/Hello/;
 
-pass "Not existing";
+pass "Not exiting";
 
 Exit::main;
 

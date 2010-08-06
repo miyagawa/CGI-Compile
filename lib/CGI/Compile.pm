@@ -20,13 +20,31 @@ sub new {
 our $USE_REAL_EXIT;
 BEGIN {
     $USE_REAL_EXIT = 1;
-    *CORE::GLOBAL::exit = sub (;$) {
+
+    my $orig = *CORE::GLOBAL::exit{CODE};
+
+    my $proto = $orig ? prototype $orig : prototype 'CORE::exit';
+
+    $proto = "($proto)" if $proto;
+
+    $orig ||= sub {
         my $exit_code = shift;
 
-        CORE::exit(defined $exit_code ? $exit_code : 0) if $USE_REAL_EXIT;
-
-        die [ "EXIT\n", $exit_code || 0 ]
+        CORE::exit(defined $exit_code ? $exit_code : 0);
     };
+
+    no warnings 'redefine';
+
+    *CORE::GLOBAL::exit = eval qq{
+        sub $proto {
+            my \$exit_code = shift;
+
+            \$orig->(\$exit_code) if \$USE_REAL_EXIT;
+
+            die [ "EXIT\n", \$exit_code || 0 ]
+        };
+    };
+    die $@ if $@;
 }
 
 sub compile {

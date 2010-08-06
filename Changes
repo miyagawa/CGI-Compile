@@ -1,5 +1,7 @@
 Revision history for Perl extension CGI::Compile
 
+        - better mod_perl compatibility (chain to CORE::GLOBAL::exit)
+
 0.11  Wed Mar 10 23:57:55 JST 2010
         - Strip __END__ (lestrrat)
         - Refactored tests and added an unit test for __DATA__ and __END__
