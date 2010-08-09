@@ -1,6 +1,7 @@
 Revision history for Perl extension CGI::Compile
 
-        - better mod_perl compatibility (chain to CORE::GLOBAL::exit)
+0.12  Sun Aug  8 23:35:52 PDT 2010
+        - better mod_perl compatibility (chain to CORE::GLOBAL::exit) (rkitover)
 
 0.11  Wed Mar 10 23:57:55 JST 2010
         - Strip __END__ (lestrrat)
