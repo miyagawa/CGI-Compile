@@ -173,6 +173,20 @@ into a persistent PSGI application like:
 
   # $app is a PSGI application
 
+=head1 CAVEATS
+
+If your CGI script has a subroutine that references the lexical scope
+variable outside the subroutine, you'll see warnings such as:
+
+  Variable "$q" is not available at ...
+  Variable "$counter" will not stay shared at ...
+
+This is due to the way this module compiles the whole script into a
+big C<sub>. To solve this, you have to update your code to pass around
+the lexical variables, or replace C<my> with C<our>. See also
+L<http://perl.apache.org/docs/1.0/guide/porting.html#The_First_Mystery>
+for more details.
+
 =head1 AUTHOR
 
 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
