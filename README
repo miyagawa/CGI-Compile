@@ -27,6 +27,19 @@ RUN ON PSGI
 
       # $app is a PSGI application
 
+CAVEATS
+    If your CGI script has a subroutine that references the lexical scope
+    variable outside the subroutine, you'll see warnings such as:
+
+      Variable "$q" is not available at ...
+      Variable "$counter" will not stay shared at ...
+
+    This is due to the way this module compiles the whole script into a big
+    "sub". To solve this, you have to update your code to pass around the
+    lexical variables, or replace "my" with "our". See also
+    <http://perl.apache.org/docs/1.0/guide/porting.html#The_First_Mystery>
+    for more details.
+
 AUTHOR
     Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
