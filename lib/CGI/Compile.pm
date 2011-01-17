@@ -57,6 +57,8 @@ sub compile {
     my $dir  = File::Basename::dirname($path);
 
     $package ||= $self->_build_package($path);
+
+    my $warnings = $code =~ /^#!.*\s-w\b/ ? 1 : 0;
  
     $code =~ s/^__END__\n.*//ms;
     $code =~ s/^__DATA__\n(.*)//ms;
@@ -73,6 +75,7 @@ sub compile {
         'local *DATA;',
         q{open DATA, '<', \$data;},
         'local *SIG = +{ %SIG };',
+        ('local $^W = '.$warnings.';'),
         'my $rv = eval {',
         "\n#line 1 $path\n",
         $code,
