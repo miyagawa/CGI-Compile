@@ -1,5 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
+0.14  Thu Jan 20 15:07:59 PST 2011
+        - Enable the warnings (rkitover)
+
 0.13  Mon Jan 17 14:36:27 PST 2011
         - Improved documents about nested closure
         - check -w switch on CGIs (rkitover)
