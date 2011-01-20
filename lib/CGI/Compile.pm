@@ -75,6 +75,7 @@ sub compile {
         'local *DATA;',
         q{open DATA, '<', \$data;},
         'local *SIG = +{ %SIG };',
+        'no warnings;',
         ('local $^W = '.$warnings.';'),
         'my $rv = eval {',
         "\n#line 1 $path\n",
