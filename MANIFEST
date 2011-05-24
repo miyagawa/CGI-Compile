@@ -22,8 +22,10 @@ t/chained_exit.t
 t/chdir.t
 t/compile.t
 t/data.cgi
+t/data_crlf.cgi
 t/data_end.t
 t/end.cgi
+t/end_crlf.cgi
 t/error.cgi
 t/exit.cgi
 t/Exit.pm
