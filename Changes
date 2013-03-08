@@ -1,5 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
+        - fix uninitialized warning in some versions of Perl (rkitover)
+        - fix xt/ tests (rkitover)
+
 0.15  Tue May 24 09:41:52 PDT 2011
         - handle DOS line endings (rkitover)
 

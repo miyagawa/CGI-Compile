@@ -25,7 +25,7 @@ BEGIN {
 
     my $proto = $orig ? prototype $orig : prototype 'CORE::exit';
 
-    $proto = "($proto)" if $proto;
+    $proto = $proto ? "($proto)" : '';
 
     $orig ||= sub {
         my $exit_code = shift;
