@@ -34,7 +34,4 @@ t/hello.cgi
 t/psgi.t
 t/warnings.cgi
 t/warnings.t
-xt/perlcritic.t
 xt/pod.t
-xt/podspell.t
-xt/synopsis.t
