@@ -1,5 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
+0.16  Sun Mar 10 00:12:45 PST 2013
+        - Fixed warnings on 5.10 (rkitover)
+
 0.15  Tue May 24 09:41:52 PDT 2011
         - handle DOS line endings (rkitover)
 
