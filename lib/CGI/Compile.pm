@@ -52,6 +52,8 @@ sub compile {
 
     my $self = ref $class ? $class : $class->new;
 
+    die "Script name or Package must be set !" if ($code && !$script && !$package);
+
     $code ||= $self->_read_source($script);
     my $path = Cwd::abs_path($script);
     my $dir  = File::Basename::dirname($path);
@@ -192,6 +194,20 @@ the lexical variables, or replace C<my> with C<our>. See also
 L<http://perl.apache.org/docs/1.0/guide/porting.html#The_First_Mystery>
 for more details.
 
+=head1 METHODS
+
+=head2 compile ($script [, $package, $code])
+
+=over
+
+=item B<$script> - Filename of CGI script
+
+=item B<$package> - Optional is set package name. Default is set from B<$script> name
+
+=item B<$code> - Optional is put Perl own code as ScalarRef and B<$script> or B<$package> must be set too.
+
+=back
+
 =head1 AUTHOR
 
 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
@@ -201,6 +217,8 @@ Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
 Rafael Kitover E<lt>rkitover@cpan.orgE<gt>
 
 Hans Dieter Pearcey E<lt>hdp@cpan.orgE<gt>
+
+Igor Bujna E<lt>igor.bujna <AT> post.czE<gt>
 
 =head1 COPYRIGHT & LICENSE
 
