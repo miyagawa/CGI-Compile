@@ -37,9 +37,14 @@ Hello
 World
 EOL
 
-    my $sub = CGI::Compile->compile("t/data.cgi", undef, \$str);
+    my $sub = CGI::Compile->compile("testing_scalar.pl", undef, \$str);
     my $out = capture_out($sub);
     like $out, qr/Hello\nWorld/;
+
+    eval {
+        my $sub = CGI::Compile->compile(undef, undef, \$str);
+    };
+    isnt $@, '';
 }
 
 done_testing;
