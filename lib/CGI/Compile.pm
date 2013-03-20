@@ -196,15 +196,63 @@ for more details.
 
 =head1 METHODS
 
-=head2 compile ($script [, $package, $code])
+=head2 new
 
-=over
+Does not need to be called, you only need to call it if you want to set your
+own C<namespace_root> for the generated packages into which the CGIs are
+compiled into.
 
-=item B<$script> - Filename of CGI script
+Otherwise you can just call L</compile> as a class method and the object will
+be instantiated with a C<namespace_root> of C<CGI::Compile::ROOT>.
 
-=item B<$package> - Optional is set package name. Default is set from B<$script> name
+Example:
 
-=item B<$code> - Optional is put Perl own code as ScalarRef and B<$script> or B<$package> must be set too.
+    my $compiler = CGI::Compile->new(namespace_root => 'My::CGIs');
+    my $cgi      = $compiler->compile('/var/www/cgi-bin/my.cgi');
+
+=head2 compile
+
+Takes a path to a perl CGI script and some other optional parameters and wraps
+it into a coderef for execution.
+
+Can be called as either a class or instance method, see L</new> above.
+
+Parameters:
+
+=over 4
+
+=item * C<$cgi_script>
+
+Path to perl CGI script file, required.
+
+=item * C<$package>
+
+Optional, package to install the script into, defaults to the path parts of the
+script joined with C<_>, and all special characters converted to C<_%2x>,
+prepended with C<CGI::Compile::ROOT::>.
+
+E.g.:
+
+    /var/www/cgi-bin/foo.cgi
+
+becomes:
+
+    CGI::Compile::ROOT::var_www_cgi_2dbin_foo_2ecgi
+
+=item * C<$code>
+
+Optional, a scalarref to the CGI script source, if you would prefer to pass in
+the source yourself instead of reading it from disk.
+
+=back
+
+Returns:
+
+=over 4
+
+=item * C<$coderef>
+
+C<$cgi_script> or C<$$code> compiled to coderef.
 
 =back
 
