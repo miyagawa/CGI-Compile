@@ -52,7 +52,7 @@ sub compile {
 
     my $self = ref $class ? $class : $class->new;
 
-    my $code = $self->_read_source($script);
+    my $code = ref($script) eq 'SCALAR' ? $$script : $self->_read_source($script);
     my $path = Cwd::abs_path($script);
     my $dir  = File::Basename::dirname($path);
 
