@@ -52,14 +52,18 @@ sub compile {
 
     my $self = ref $class ? $class : $class->new;
 
-    my $code = ref($script) eq 'SCALAR' ? $$script : $self->_read_source($script);
-    my $path = Cwd::abs_path($script);
-    my $dir  = File::Basename::dirname($path);
+    my($code, $path, $dir);
+    if (ref $script eq 'SCALAR') {
+        $code = $$script;
+    } else {
+        $code = $self->_read_source($script);
+        $path = Cwd::abs_path($script);
+        $dir  = File::Basename::dirname($path);
+    }
 
-    $package ||= $self->_build_package($path);
+    $package ||= $self->_build_package($path || $script);
 
     my $warnings = $code =~ /^#!.*\s-w\b/ ? 1 : 0;
- 
     $code =~ s/^__END__\r?\n.*//ms;
     $code =~ s/^__DATA__\r?\n(.*)//ms;
     my $data = $1;
@@ -70,15 +74,15 @@ sub compile {
         "sub {",
         'local $CGI::Compile::USE_REAL_EXIT = 0;',
         "\nCGI::initialize_globals() if defined &CGI::initialize_globals;",
-        "local \$0 = '$path';",
-        "my \$_dir = File::pushd::pushd '$dir';",
+        ($path ? "local \$0 = '$path';" : ''),
+        ($dir  ? "my \$_dir = File::pushd::pushd '$dir';" : ''),
         'local *DATA;',
         q{open DATA, '<', \$data;},
         'local *SIG = +{ %SIG };',
         'no warnings;',
-        ('local $^W = '.$warnings.';'),
+        "local \$^W = $warnings;",
         'my $rv = eval {',
-        "\n#line 1 $path\n",
+        ($path ? "\n#line 1 $path\n" : ''),
         $code,
         "\n};",
         q{
