@@ -52,6 +52,8 @@ sub compile {
 
     my $self = ref $class ? $class : $class->new;
 
+    die "Script name or Package must be set !" if ($code && !$script && !$package);
+
     $code ||= $self->_read_source($script);
     my $path = Cwd::abs_path($script);
     my $dir  = File::Basename::dirname($path);
@@ -264,7 +266,7 @@ Rafael Kitover E<lt>rkitover@cpan.orgE<gt>
 
 Hans Dieter Pearcey E<lt>hdp@cpan.orgE<gt>
 
-kocoureasy E<lt>igor.bujna@post.czE<gt>
+Igor Bujna E<lt>igor.bujna <AT> post.czE<gt>
 
 =head1 COPYRIGHT & LICENSE
 
