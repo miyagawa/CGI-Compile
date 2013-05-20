@@ -37,7 +37,7 @@ Hello
 World
 EOL
 
-    my $sub = CGI::Compile->compile("t/data.cgi", undef, \$str);
+    my $sub = CGI::Compile->compile(\$str);
     my $out = capture_out($sub);
     like $out, qr/Hello\nWorld/;
 }
