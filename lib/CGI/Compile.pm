@@ -213,8 +213,8 @@ Example:
 
 =head2 compile
 
-Takes a path to a perl CGI script and some other optional parameters and wraps
-it into a coderef for execution.
+Takes either a path to a perl CGI script or a source code and some
+other optional parameters and wraps it into a coderef for execution.
 
 Can be called as either a class or instance method, see L</new> above.
 
@@ -224,7 +224,8 @@ Parameters:
 
 =item * C<$cgi_script>
 
-Path to perl CGI script file, required.
+Path to perl CGI script file or a scalar reference that contains the
+source code of CGI script, required.
 
 =item * C<$package>
 
@@ -239,11 +240,6 @@ E.g.:
 becomes:
 
     CGI::Compile::ROOT::var_www_cgi_2dbin_foo_2ecgi
-
-=item * C<$code>
-
-Optional, a scalarref to the CGI script source, if you would prefer to pass in
-the source yourself instead of reading it from disk.
 
 =back
 
