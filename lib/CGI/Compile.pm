@@ -48,20 +48,20 @@ BEGIN {
 }
 
 sub compile {
-    my($class, $script, $package, $code) = @_;
+    my($class, $script, $package) = @_;
 
     my $self = ref $class ? $class : $class->new;
 
-    $code ||= $self->_read_source($script);
+    my $code = $self->_read_source($script);
     my $path = Cwd::abs_path($script);
     my $dir  = File::Basename::dirname($path);
 
     $package ||= $self->_build_package($path);
 
-    my $warnings = $$code =~ /^#!.*\s-w\b/ ? 1 : 0;
+    my $warnings = $code =~ /^#!.*\s-w\b/ ? 1 : 0;
  
-    $$code =~ s/^__END__\r?\n.*//ms;
-    $$code =~ s/^__DATA__\r?\n(.*)//ms;
+    $code =~ s/^__END__\r?\n.*//ms;
+    $code =~ s/^__DATA__\r?\n(.*)//ms;
     my $data = $1;
 
     # TODO handle nph and command line switches?
@@ -79,7 +79,7 @@ sub compile {
         ('local $^W = '.$warnings.';'),
         'my $rv = eval {',
         "\n#line 1 $path\n",
-        $$code,
+        $code,
         "\n};",
         q{
             return $rv unless $@;
@@ -117,8 +117,7 @@ sub _read_source {
     my($self, $file) = @_;
 
     open my $fh, "<", $file or die "$file: $!";
-    my $ret = do { local $/; <$fh> };
-    return \$ret;
+    return do { local $/; <$fh> };
 }
 
 sub _build_package {
