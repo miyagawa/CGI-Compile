@@ -4,3 +4,10 @@ inc/
 pm_to_blib
 *~
 MYMETA.*
+/CGI-Compile-*
+/.build
+/_build_params
+/Build
+!Build/
+!META.json
+

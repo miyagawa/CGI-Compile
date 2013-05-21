@@ -1,5 +1,7 @@
 Revision history for Perl extension CGI::Compile
 
+{{$NEXT}}
+
 0.16  Sun Mar 10 00:12:45 PST 2013
         - Fixed warnings on 5.10 (rkitover)
 
