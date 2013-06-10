@@ -48,7 +48,7 @@ BEGIN {
 }
 
 sub compile {
-    my($class, $script, $package) = @_;
+    my($class, $script, $package,%opts) = @_;
 
     my $self = ref $class ? $class : $class->new;
 
@@ -68,6 +68,11 @@ sub compile {
     $code =~ s/^__DATA__\r?\n(.*)//ms;
     my $data = $1;
 
+    my $sig = '';
+    $sig = 'local *SIG = +{ %SIG };'
+    	unless $opts{no_localize_sig};
+    
+
     # TODO handle nph and command line switches?
     my $eval = join '',
         "package $package;",
@@ -78,7 +83,7 @@ sub compile {
         ($dir  ? "my \$_dir = File::pushd::pushd '$dir';" : ''),
         'local *DATA;',
         q{open DATA, '<', \$data;},
-        'local *SIG = +{ %SIG };',
+	$sig,
         'no warnings;',
         "local \$^W = $warnings;",
         'my $rv = eval {',
