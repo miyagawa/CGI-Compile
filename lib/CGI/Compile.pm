@@ -86,13 +86,12 @@ sub compile {
         $code,
         "\n};",
         q{
-            return $rv unless $@;
+            return 0+$rv unless $@;
             die $@ if $@ and not (
               ref($@) eq 'ARRAY' and
               $@->[0] eq "EXIT\n"
             );
-            die "exited nonzero: $@->[1]" if $@->[1] != 0;
-            return $rv;
+            return 0+$@->[1];
         },
         '};';
 
