@@ -2,7 +2,16 @@ package CGI::Compile;
 
 use strict;
 use 5.008_001;
-our $VERSION = '0.16';
+{our $VERSION = '0.16'}
+
+# this helper function is placed at the top of the file to
+# hide variables in this file from the generated sub.
+sub _eval {
+    no strict;
+    no warnings;
+
+    eval $_[0];
+}
 
 use Cwd;
 use File::Basename;
@@ -74,10 +83,12 @@ sub compile {
         "sub {",
         'local $CGI::Compile::USE_REAL_EXIT = 0;',
         "\nCGI::initialize_globals() if defined &CGI::initialize_globals;",
-        ($path ? "local \$0 = '$path';" : ''),
-        ($dir  ? "my \$_dir = File::pushd::pushd '$dir';" : ''),
-        'local *DATA;',
+        'local ($0, $CGI::Compile::_dir, *DATA);',
+        '{ my $data = shift; my $path = shift; my $dir = shift;',
+        ($path ? '$0 = $path;' : ''),
+        ($dir  ? '$CGI::Compile::_dir = File::pushd::pushd $dir;' : ''),
         q{open DATA, '<', \$data;},
+        '}',
         'local @SIG{keys %SIG} = @SIG{keys %SIG};',
         'no warnings;',
         "local \$^W = $warnings;",
@@ -97,18 +108,15 @@ sub compile {
 
 
     my $sub = do {
-        no strict;
-        no warnings;
-
         local @SIG{keys %SIG} = @SIG{keys %SIG};
         local $USE_REAL_EXIT = 0;
 
-        my $code = eval $eval;
+        my $code = _eval $eval;
         my $exception = $@;
 
         die "Could not compile $script: $exception" if $exception;
 
-        $code;
+        sub {$code->($data, $path, $dir)};
     };
 
     return $sub;
