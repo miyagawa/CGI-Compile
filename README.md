@@ -13,12 +13,12 @@ CGI::Compile is an utility to compile CGI scripts into a code
 reference that can run many times on its own namespace, as long as the
 script is ready to run on a persistent environment.
 
-__NOTE:__ for best results, load [CGI::Compile](http://search.cpan.org/perldoc?CGI::Compile) before any modules used by your
+**NOTE:** for best results, load [CGI::Compile](https://metacpan.org/pod/CGI::Compile) before any modules used by your
 CGIs.
 
 # RUN ON PSGI
 
-Combined with [CGI::Emulate::PSGI](http://search.cpan.org/perldoc?CGI::Emulate::PSGI), your CGI script can be turned
+Combined with [CGI::Emulate::PSGI](https://metacpan.org/pod/CGI::Emulate::PSGI), your CGI script can be turned
 into a persistent PSGI application like:
 
     use CGI::Emulate::PSGI;
@@ -41,7 +41,7 @@ variable outside the subroutine, you'll see warnings such as:
 This is due to the way this module compiles the whole script into a
 big `sub`. To solve this, you have to update your code to pass around
 the lexical variables, or replace `my` with `our`. See also
-[http://perl.apache.org/docs/1.0/guide/porting.html\#The\_First\_Mystery](http://perl.apache.org/docs/1.0/guide/porting.html\#The\_First\_Mystery)
+[http://perl.apache.org/docs/1.0/guide/porting.html#The\_First\_Mystery](http://perl.apache.org/docs/1.0/guide/porting.html#The_First_Mystery)
 for more details.
 
 # METHODS
@@ -106,6 +106,8 @@ Hans Dieter Pearcey <hdp@cpan.org>
 
 kocoureasy <igor.bujna@post.cz>
 
+Torsten Förtsch <torsten.foertsch@gmx.net>
+
 # COPYRIGHT & LICENSE
 
 Copyright (c) 2009 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
@@ -115,4 +117,4 @@ it under the same terms as Perl itself.
 
 # SEE ALSO
 
-[ModPerl::RegistryCooker](http://search.cpan.org/perldoc?ModPerl::RegistryCooker) [CGI::Emulate::PSGI](http://search.cpan.org/perldoc?CGI::Emulate::PSGI)
+[ModPerl::RegistryCooker](https://metacpan.org/pod/ModPerl::RegistryCooker) [CGI::Emulate::PSGI](https://metacpan.org/pod/CGI::Emulate::PSGI)

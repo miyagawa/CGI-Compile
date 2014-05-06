@@ -2,7 +2,17 @@ package CGI::Compile;
 
 use strict;
 use 5.008_001;
-our $VERSION = '0.16';
+
+# this helper function is placed at the top of the file to
+# hide variables in this file from the generated sub.
+sub _eval {
+    no strict;
+    no warnings;
+
+    eval $_[0];
+}
+
+our $VERSION = '0.17';
 
 use Cwd;
 use File::Basename;
@@ -74,11 +84,14 @@ sub compile {
         "sub {",
         'local $CGI::Compile::USE_REAL_EXIT = 0;',
         "\nCGI::initialize_globals() if defined &CGI::initialize_globals;",
-        ($path ? "local \$0 = '$path';" : ''),
-        ($dir  ? "my \$_dir = File::pushd::pushd '$dir';" : ''),
-        'local *DATA;',
+        'local ($0, $CGI::Compile::_dir, *DATA);',
+        '{ my $data = shift; my $path = shift; my $dir = shift;',
+        ($path ? '$0 = $path;' : ''),
+        ($dir  ? '$CGI::Compile::_dir = File::pushd::pushd $dir;' : ''),
         q{open DATA, '<', \$data;},
-        'local *SIG = +{ %SIG };',
+        '}',
+        # NOTE: this is a workaround to fix a problem in Perl 5.10
+        'local @SIG{keys %SIG} = @{[]} = values %SIG;',
         'no warnings;',
         "local \$^W = $warnings;",
         'my $rv = eval {',
@@ -86,32 +99,27 @@ sub compile {
         $code,
         "\n};",
         q{
-            return $rv unless $@;
+            return 0+$rv unless $@;
             die $@ if $@ and not (
               ref($@) eq 'ARRAY' and
               $@->[0] eq "EXIT\n"
             );
-            die "exited nonzero: $@->[1]" if $@->[1] != 0;
-            return $rv;
+            return 0+$@->[1];
         },
         '};';
 
 
     my $sub = do {
-        no strict;
-        no warnings;
-
-        my %orig_sig  = %SIG;
+        # NOTE: this is a workaround to fix a problem in Perl 5.10
+        local @SIG{keys %SIG} = @{[]} = values %SIG;
         local $USE_REAL_EXIT = 0;
 
-        my $code = eval $eval;
+        my $code = _eval $eval;
         my $exception = $@;
-
-        %SIG = %orig_sig;
 
         die "Could not compile $script: $exception" if $exception;
 
-        $code;
+        sub {$code->($data, $path, $dir)};
     };
 
     return $sub;
@@ -253,6 +261,75 @@ C<$cgi_script> or C<$$code> compiled to coderef.
 
 =back
 
+=head2 The script's environment
+
+=head3 C<BEGIN> and C<END> blocks
+
+C<BEGIN> blocks are called once when the script is compiled.
+C<END> blocks are called when the Perl interpreter is unloaded.
+
+This may cause surprising effects. Suppose, for instance, a script that runs
+in a forking web server and is loaded in the parent process. C<END>
+blocks will be called once for each worker process and another time
+for the parent process while C<BEGIN> blocks are called only by the
+parent process.
+
+=head3 C<%SIG>
+
+The C<%SIG> hash is preserved meaning the script can change signal
+handlers at will. The next invocation gets a pristine C<%SIG> again.
+
+=head3 C<exit> and exceptions
+
+Calls to C<exit> are intercepted and converted into exceptions. When
+the script calls C<exit 19> and exception is thrown and C<$@> contains
+a reference pointing to the array
+
+    ["EXIT\n", 19]
+
+Naturally, C<$^S> is always C<true> during script runtime.
+
+If you really want to exit the process call C<CORE::exit> or set
+C<$CGI::Compile::USE_REAL_EXIT> to true before calling exit:
+
+    $CGI::Compile::USE_REAL_EXIT = 1;
+    exit 19;
+
+Other exceptions are propagated out of the generated coderef. The coderef's
+caller is responsible to catch them or the process will exit.
+
+=head3 Return Code
+
+The generated coderef returns either the parameter that was passed to
+C<exit> or the value of the last statement of the script. The return code
+is converted into a number.
+
+=head3 Current Working Directory
+
+If C<< CGI::Compile->compile >> was passed a script file, the script's
+directory becomes the current working directory during the runtime of
+the script.
+
+NOTE: to be able to switch back to the original directory, the compiled
+coderef must establish the current working directory. This operation may
+cause an additional flush operation on file handles.
+
+=head3 C<STDIN> and C<STDOUT>
+
+These file handles are not touched by C<CGI::Compile>.
+
+=head3 The C<DATA> file handle
+
+If the script reads from the C<DATA> file handle, it reads the C<__DATA__>
+section provided by the script just as a normal script would do. Note,
+however, that the file handle is a memory handle. So, C<fileno DATA> will
+return C<-1>.
+
+=head3 CGI.pm integration
+
+If the subroutine C<CGI::initialize_globals> is defined at script runtime,
+it is called first thing by the compiled coderef.
+
 =head1 AUTHOR
 
 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
@@ -264,6 +341,8 @@ Rafael Kitover E<lt>rkitover@cpan.orgE<gt>
 Hans Dieter Pearcey E<lt>hdp@cpan.orgE<gt>
 
 kocoureasy E<lt>igor.bujna@post.czE<gt>
+
+Torsten Förtsch E<lt>torsten.foertsch@gmx.netE<gt>
 
 =head1 COPYRIGHT & LICENSE
 

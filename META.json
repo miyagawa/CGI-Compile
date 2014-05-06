@@ -4,7 +4,7 @@
       "Tatsuhiko Miyagawa <miyagawa@bulknews.net>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Milla version v1.0.2, Dist::Zilla version 4.300034, CPAN::Meta::Converter version 2.130880",
+   "generated_by" : "Dist::Milla version v1.0.4, Dist::Zilla version 5.015, CPAN::Meta::Converter version 2.141170",
    "license" : [
       "perl_5"
    ],
@@ -26,7 +26,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build::Tiny" : "0.020"
+            "Module::Build::Tiny" : "0.035"
          }
       },
       "develop" : {
@@ -51,19 +51,21 @@
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/miyagawa/CGI-Compile/issues"
+         "web" : "https://github.com/tfoertsch/CGI-Compile/issues"
       },
-      "homepage" : "https://github.com/miyagawa/CGI-Compile",
+      "homepage" : "https://github.com/tfoertsch/CGI-Compile",
       "repository" : {
          "type" : "git",
-         "url" : "https://github.com/miyagawa/CGI-Compile.git",
-         "web" : "https://github.com/miyagawa/CGI-Compile"
+         "url" : "https://github.com/tfoertsch/CGI-Compile.git",
+         "web" : "https://github.com/tfoertsch/CGI-Compile"
       }
    },
-   "version" : "0.16",
+   "version" : "0.17",
    "x_contributors" : [
       "Rafael Kitover <rkitover@cpan.org>",
+      "Tatsuhiko Miyagawa <miyagawa@bulknews.net>",
       "Tatsuhiko Miyagawa <miyagawa@gmail.com>",
+      "Torsten Förtsch <torsten@binary.com>",
       "kocoureasy <igor.bujna@post.cz>",
       "lestrrat <lestrrat+github@gmail.com>"
    ]
