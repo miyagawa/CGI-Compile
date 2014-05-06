@@ -2,7 +2,6 @@ package CGI::Compile;
 
 use strict;
 use 5.008_001;
-{our $VERSION = '0.16'}
 
 # this helper function is placed at the top of the file to
 # hide variables in this file from the generated sub.
@@ -12,6 +11,8 @@ sub _eval {
 
     eval $_[0];
 }
+
+our $VERSION = '0.16';
 
 use Cwd;
 use File::Basename;
@@ -269,6 +270,8 @@ Rafael Kitover E<lt>rkitover@cpan.orgE<gt>
 Hans Dieter Pearcey E<lt>hdp@cpan.orgE<gt>
 
 kocoureasy E<lt>igor.bujna@post.czE<gt>
+
+Torsten Förtsch E<lt>torsten.foertsch@gmx.netE<gt>
 
 =head1 COPYRIGHT & LICENSE
 
