@@ -78,7 +78,7 @@ sub compile {
         ($dir  ? "my \$_dir = File::pushd::pushd '$dir';" : ''),
         'local *DATA;',
         q{open DATA, '<', \$data;},
-        'local *SIG = +{ %SIG };',
+        'local @SIG{keys %SIG} = @SIG{keys %SIG};',
         'no warnings;',
         "local \$^W = $warnings;",
         'my $rv = eval {',
@@ -101,13 +101,11 @@ sub compile {
         no strict;
         no warnings;
 
-        my %orig_sig  = %SIG;
+        local @SIG{keys %SIG} = @SIG{keys %SIG};
         local $USE_REAL_EXIT = 0;
 
         my $code = eval $eval;
         my $exception = $@;
-
-        %SIG = %orig_sig;
 
         die "Could not compile $script: $exception" if $exception;
 
