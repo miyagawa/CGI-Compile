@@ -26,4 +26,35 @@ eval {
 
 is $@, '';
 
+{
+    local $main::FLNO;
+    my $sub = CGI::Compile->compile(\<<'EOF');
+$main::FLNO = fileno DATA;
+print +(<DATA>)[0,3];
+__DATA__
+line 1
+line 2
+line 3
+line 4
+EOF
+
+    my $out = capture_out($sub);
+    like $out, qr/line 1\r?\nline 4/;
+
+    $out = capture_out($sub);
+    like $out, qr/line 1\r?\nline 4/;
+
+    is $main::FLNO, -1;
+}
+
+{
+    local $main::S;
+    my $sub = CGI::Compile->compile(\<<'EOF');
+$main::S = $^S;
+EOF
+
+    $sub->();
+    is $main::S, 1;
+}
+
 done_testing;
