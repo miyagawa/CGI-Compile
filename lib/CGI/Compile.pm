@@ -90,7 +90,8 @@ sub compile {
         ($dir  ? '$CGI::Compile::_dir = File::pushd::pushd $dir;' : ''),
         q{open DATA, '<', \$data;},
         '}',
-        'local @SIG{keys %SIG} = values %SIG;',
+        # NOTE: this is a workaround to fix a problem in Perl 5.10
+        'local @SIG{keys %SIG} = @{[]} = values %SIG;',
         'no warnings;',
         "local \$^W = $warnings;",
         'my $rv = eval {',
@@ -109,7 +110,8 @@ sub compile {
 
 
     my $sub = do {
-        local @SIG{keys %SIG} = values %SIG;
+        # NOTE: this is a workaround to fix a problem in Perl 5.10
+        local @SIG{keys %SIG} = @{[]} = values %SIG;
         local $USE_REAL_EXIT = 0;
 
         my $code = _eval $eval;
