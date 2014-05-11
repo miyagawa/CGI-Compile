@@ -4,6 +4,9 @@ use CGI::Compile;
 
 my %orig_sig = %SIG;
 
+# set something special
+$SIG{TERM} = $orig_sig{TERM} = sub {TERM};
+
 # perl < 5.8.9 won't set a %SIG entry to undef, it sets it to ''
 %orig_sig = map { defined $_ ? $_ : '' } %orig_sig
     if $] < 5.008009;

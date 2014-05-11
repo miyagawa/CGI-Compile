@@ -1,9 +1,10 @@
 use CGI;
 $COUNTER++;
 
-BEGIN { $SIG{USR1} = 'IGNORE'; }
+BEGIN { $SIG{USR1} = 'IGNORE'; $SIG{TERM} = sub {"COMPILE TERM"} }
 
 $SIG{USR1} = 'IGNORE';
+$SIG{TERM} = sub {"RUN TERM"};
 
 my $q = CGI->new;
 
