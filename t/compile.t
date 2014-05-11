@@ -2,6 +2,7 @@ use Test::More;
 use t::Capture;
 use CGI::Compile;
 
+@SIG{keys %SIG} = values %SIG;
 my %orig_sig = %SIG;
 
 # perl < 5.8.9 won't set a %SIG entry to undef, it sets it to ''
