@@ -4,6 +4,9 @@ use CGI::Compile;
 
 my %orig_sig = %SIG;
 
+# set something special
+$SIG{TERM} = $orig_sig{TERM} = sub {TERM};
+
 # perl < 5.8.9 won't set a %SIG entry to undef, it sets it to ''
 %orig_sig = map { defined $_ ? $_ : '' } %orig_sig
     if $] < 5.008009;
@@ -22,7 +25,7 @@ is_deeply \%SIG, \%orig_sig, '%SIG preserved during run';
 
 $ENV{QUERY_STRING} = 'exit_status=1';
 eval { capture_out($sub) };
-like $@, qr/exited nonzero: 1/, 'non-zero exit status';
+is $@, '', 'non-zero exit status';
 
 $ENV{QUERY_STRING} = 'name=bar';
 $stdout = capture_out($sub);
