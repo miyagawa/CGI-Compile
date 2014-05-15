@@ -94,6 +94,75 @@ Returns:
 
     `$cgi_script` or `$$code` compiled to coderef.
 
+## The script's environment
+
+### `BEGIN` and `END` blocks
+
+`BEGIN` blocks are called once when the script is compiled.
+`END` blocks are called when the Perl interpreter is unloaded.
+
+This may cause surprising effects. Suppose, for instance, a script that runs
+in a forking web server and is loaded in the parent process. `END`
+blocks will be called once for each worker process and another time
+for the parent process while `BEGIN` blocks are called only by the
+parent process.
+
+### `%SIG`
+
+The `%SIG` hash is preserved meaning the script can change signal
+handlers at will. The next invocation gets a pristine `%SIG` again.
+
+### `exit` and exceptions
+
+Calls to `exit` are intercepted and converted into exceptions. When
+the script calls `exit 19` and exception is thrown and `$@` contains
+a reference pointing to the array
+
+    ["EXIT\n", 19]
+
+Naturally, `$^S` is always `true` during script runtime.
+
+If you really want to exit the process call `CORE::exit` or set
+`$CGI::Compile::USE_REAL_EXIT` to true before calling exit:
+
+    $CGI::Compile::USE_REAL_EXIT = 1;
+    exit 19;
+
+Other exceptions are propagated out of the generated coderef. The coderef's
+caller is responsible to catch them or the process will exit.
+
+### Return Code
+
+The generated coderef returns either the parameter that was passed to
+`exit` or the value of the last statement of the script. The return code
+is converted into a number.
+
+### Current Working Directory
+
+If `CGI::Compile->compile` was passed a script file, the script's
+directory becomes the current working directory during the runtime of
+the script.
+
+NOTE: to be able to switch back to the original directory, the compiled
+coderef must establish the current working directory. This operation may
+cause an additional flush operation on file handles.
+
+### `STDIN` and `STDOUT`
+
+These file handles are not touched by `CGI::Compile`.
+
+### The `DATA` file handle
+
+If the script reads from the `DATA` file handle, it reads the `__DATA__`
+section provided by the script just as a normal script would do. Note,
+however, that the file handle is a memory handle. So, `fileno DATA` will
+return `-1`.
+
+### CGI.pm integration
+
+If the subroutine `CGI::initialize_globals` is defined at script runtime,
+it is called first thing by the compiled coderef.
+
 # AUTHOR
 
 Tatsuhiko Miyagawa <miyagawa@bulknews.net>

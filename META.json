@@ -4,7 +4,7 @@
       "Tatsuhiko Miyagawa <miyagawa@bulknews.net>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Milla version v1.0.4, Dist::Zilla version 5.015, CPAN::Meta::Converter version 2.141170",
+   "generated_by" : "Dist::Milla version v1.0.5, Dist::Zilla version 5.017, CPAN::Meta::Converter version 2.141170",
    "license" : [
       "perl_5"
    ],
@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "CGI-Compile",
+   "name" : "cgi-compile",
    "no_index" : {
       "directory" : [
          "t",
@@ -26,7 +26,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build::Tiny" : "0.035"
+            "Module::Build::Tiny" : "0.036"
          }
       },
       "develop" : {
@@ -51,23 +51,21 @@
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/tfoertsch/CGI-Compile/issues"
+         "web" : "https://github.com/miyagawa/CGI-Compile/issues"
       },
-      "homepage" : "https://github.com/tfoertsch/CGI-Compile",
+      "homepage" : "https://github.com/miyagawa/CGI-Compile",
       "repository" : {
          "type" : "git",
-         "url" : "https://github.com/tfoertsch/CGI-Compile.git",
-         "web" : "https://github.com/tfoertsch/CGI-Compile"
+         "url" : "https://github.com/miyagawa/CGI-Compile.git",
+         "web" : "https://github.com/miyagawa/CGI-Compile"
       }
    },
    "version" : "0.17",
    "x_contributors" : [
       "Rafael Kitover <rkitover@cpan.org>",
-      "Tatsuhiko Miyagawa <miyagawa@bulknews.net>",
-      "Tatsuhiko Miyagawa <miyagawa@gmail.com>",
-      "Torsten Förtsch <torsten@binary.com>",
+      "Hans Dieter Pearcey <hdp@cpan.org>",
       "kocoureasy <igor.bujna@post.cz>",
-      "lestrrat <lestrrat+github@gmail.com>"
+      "Torsten Förtsch <torsten.foertsch@gmx.net>"
    ]
 }
 
