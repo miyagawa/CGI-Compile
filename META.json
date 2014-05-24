@@ -4,7 +4,7 @@
       "Tatsuhiko Miyagawa <miyagawa@bulknews.net>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Milla version v1.0.5, Dist::Zilla version 5.017, CPAN::Meta::Converter version 2.141170",
+   "generated_by" : "Dist::Milla version v1.0.5, Dist::Zilla version 5.019, CPAN::Meta::Converter version 2.141170",
    "license" : [
       "perl_5"
    ],
@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "cgi-compile",
+   "name" : "CGI-Compile",
    "no_index" : {
       "directory" : [
          "t",
@@ -62,10 +62,11 @@
    },
    "version" : "0.17",
    "x_contributors" : [
-      "Rafael Kitover <rkitover@cpan.org>",
       "Hans Dieter Pearcey <hdp@cpan.org>",
+      "Rafael Kitover <rkitover@cpan.org>",
+      "Torsten Förtsch <torsten@binary.com>",
       "kocoureasy <igor.bujna@post.cz>",
-      "Torsten Förtsch <torsten.foertsch@gmx.net>"
+      "lestrrat <lestrrat+github@gmail.com>"
    ]
 }
 

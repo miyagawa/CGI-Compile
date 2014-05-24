@@ -55,6 +55,8 @@ compiled into.
 Otherwise you can just call ["compile"](#compile) as a class method and the object will
 be instantiated with a `namespace_root` of `CGI::Compile::ROOT`.
 
+You can also set `return_exit_val`, see ["RETURN CODE"](#return-code) for details.
+
 Example:
 
     my $compiler = CGI::Compile->new(namespace_root => 'My::CGIs');
@@ -94,9 +96,17 @@ Returns:
 
     `$cgi_script` or `$$code` compiled to coderef.
 
-## The script's environment
+# SCRIPT ENVIRONMENT
 
-### `BEGIN` and `END` blocks
+## ARGUMENTS
+
+Things like the query string and form data should generally be in the
+appropriate environment variables that things like [CGI](https://metacpan.org/pod/CGI) expect.
+
+You can also pass arguments to the generated coderef, they will be
+locally aliased to `@_` and `@ARGV`.
+
+## `BEGIN` and `END` blocks
 
 `BEGIN` blocks are called once when the script is compiled.
 `END` blocks are called when the Perl interpreter is unloaded.
@@ -107,12 +117,12 @@ blocks will be called once for each worker process and another time
 for the parent process while `BEGIN` blocks are called only by the
 parent process.
 
-### `%SIG`
+## `%SIG`
 
 The `%SIG` hash is preserved meaning the script can change signal
 handlers at will. The next invocation gets a pristine `%SIG` again.
 
-### `exit` and exceptions
+## `exit` and exceptions
 
 Calls to `exit` are intercepted and converted into exceptions. When
 the script calls `exit 19` and exception is thrown and `$@` contains
@@ -120,7 +130,8 @@ a reference pointing to the array
 
     ["EXIT\n", 19]
 
-Naturally, `$^S` is always `true` during script runtime.
+Naturally, ["$^S" in perlvar](https://metacpan.org/pod/perlvar#S) (exceptions being caught) is always `true`
+during script runtime.
 
 If you really want to exit the process call `CORE::exit` or set
 `$CGI::Compile::USE_REAL_EXIT` to true before calling exit:
@@ -131,13 +142,37 @@ If you really want to exit the process call `CORE::exit` or set
 Other exceptions are propagated out of the generated coderef. The coderef's
 caller is responsible to catch them or the process will exit.
 
-### Return Code
+## Return Code
 
-The generated coderef returns either the parameter that was passed to
-`exit` or the value of the last statement of the script. The return code
-is converted into a number.
+The generated coderef's exit value is either the parameter that was
+passed to `exit` or the value of the last statement of the script. The
+return code is converted into an integer.
 
-### Current Working Directory
+On a `0` exit, the coderef will return `0`.
+
+On an explicit non-zero exit, by default an exception will be thrown of
+the form:
+
+    exited nonzero: <n>
+
+where `n` is the exit value.
+
+This only happens for an actual call to ["exit" in perfunc](https://metacpan.org/pod/perfunc#exit), not if the last
+statement value is non-zero, which will just be returned from the
+coderef.
+
+If you would prefer that explicit non-zero exit values are returned,
+rather than thrown, pass:
+
+    return_exit_val => 1
+
+in your call to ["new"](#new).
+
+Alternately, you can change this behavior globally by setting:
+
+    $CGI::Compile::RETURN_EXIT_VAL = 1;
+
+## Current Working Directory
 
 If `CGI::Compile->compile` was passed a script file, the script's
 directory becomes the current working directory during the runtime of
@@ -147,18 +182,18 @@ NOTE: to be able to switch back to the original directory, the compiled
 coderef must establish the current working directory. This operation may
 cause an additional flush operation on file handles.
 
-### `STDIN` and `STDOUT`
+## `STDIN` and `STDOUT`
 
 These file handles are not touched by `CGI::Compile`.
 
-### The `DATA` file handle
+## The `DATA` file handle
 
 If the script reads from the `DATA` file handle, it reads the `__DATA__`
 section provided by the script just as a normal script would do. Note,
 however, that the file handle is a memory handle. So, `fileno DATA` will
 return `-1`.
 
-### CGI.pm integration
+## CGI.pm integration
 
 If the subroutine `CGI::initialize_globals` is defined at script runtime,
 it is called first thing by the compiled coderef.

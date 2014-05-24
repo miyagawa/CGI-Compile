@@ -1,6 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
+
+0.17  2014-05-24 11:03:19 PDT
         - fix %SIG localization (preserve magic) (torsten)
         - fix script exit code handling (torsten, rkitover)
         - hide my and our variables from the generated sub (torsten)
