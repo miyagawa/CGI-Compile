@@ -25,7 +25,7 @@ is_deeply \%SIG, \%orig_sig, '%SIG preserved during run';
 
 $ENV{QUERY_STRING} = 'exit_status=1';
 eval { capture_out($sub) };
-is $@, '', 'non-zero exit status';
+like $@, qr/^exited nonzero: 1 /, 'non-zero exit status';
 
 $ENV{QUERY_STRING} = 'name=bar';
 $stdout = capture_out($sub);

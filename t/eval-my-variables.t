@@ -1,9 +1,9 @@
 #!perl
 
-use Test::More tests => 2 * 5;
+use Test::More tests => 2 * 6;
 use CGI::Compile;
 
-for my $var (qw/self VERSION data path dir/) {
+for my $var (qw/self VERSION data path dir self/) {
     my $sub = eval {
         my $script = 'use strict; $'.$var;
         CGI::Compile->compile(\$script);

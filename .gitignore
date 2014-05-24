@@ -11,3 +11,5 @@ MYMETA.*
 !Build/
 !META.json
 /blib/
+.build/
+.*.sw[nop]
