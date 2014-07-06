@@ -68,7 +68,8 @@ sub compile {
     if (ref $script eq 'SCALAR') {
         $code = $$script;
     } else {
-        $code = $self->_read_source($script);
+        local(@ARGV, $/) = $script;
+        $code = <>;
         $path = Cwd::abs_path($script);
         $dir  = File::Basename::dirname($path);
     }
@@ -141,13 +142,6 @@ sub compile {
     };
 
     return $sub;
-}
-
-sub _read_source {
-    my($self, $file) = @_;
-
-    open my $fh, "<", $file or die "$file: $!";
-    return do { local $/; <$fh> };
 }
 
 sub _build_package {
