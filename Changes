@@ -2,6 +2,10 @@ Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
 
+0.18  2014-10-27 15:16:55 PDT
+        - Skip tests when CGI.pm is not available #15
+        - Avoid CGI.pm warnings in tests
+
 0.17  2014-05-24 11:03:19 PDT
         - fix %SIG localization (preserve magic) (torsten)
         - fix script exit code handling (torsten, rkitover)
