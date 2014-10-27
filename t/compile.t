@@ -1,4 +1,5 @@
 use Test::More;
+use Test::Requires qw(CGI);
 use t::Capture;
 use CGI::Compile;
 

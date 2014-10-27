@@ -1,5 +1,2 @@
-use CGI;
-
-my $q = CGI->new;
-
-print $q->header, "Hello \@_: ", join(',' => @_), ' @ARGV: ', join(',' => @ARGV);
+print "Content-Type: text/plain\n\n",
+  "Hello \@_: ", join(',' => @_), ' @ARGV: ', join(',' => @ARGV);

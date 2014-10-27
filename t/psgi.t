@@ -1,6 +1,6 @@
 use Test::More;
 use CGI::Compile;
-use Test::Requires qw(CGI::Emulate::PSGI Plack::Test HTTP::Request::Common);
+use Test::Requires qw(CGI CGI::Emulate::PSGI Plack::Test HTTP::Request::Common);
 
 use CGI::Emulate::PSGI;
 use Plack::Test;

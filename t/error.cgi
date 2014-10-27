@@ -1,2 +1,1 @@
-use CGI;
 die "foo";
