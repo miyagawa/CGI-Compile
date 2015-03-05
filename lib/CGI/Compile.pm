@@ -136,6 +136,7 @@ sub compile {
 
         sub {
             my @args = @_;
+            no warnings 'signal'; # this is necessary for MSWin32
             $code->($self, $data, $path, $dir, \@args)
         };
     };

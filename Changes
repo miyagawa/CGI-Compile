@@ -1,6 +1,7 @@
 Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
+        - fix signal related test fails on Win32 (rkitover) #16
 
 0.18  2014-10-27 15:16:55 PDT
         - Skip tests when CGI.pm is not available #15

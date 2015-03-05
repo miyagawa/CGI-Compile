@@ -2,6 +2,7 @@ use Test::More;
 use Test::Requires qw(CGI);
 use t::Capture;
 use CGI::Compile;
+no warnings 'signal'; # for MSWin32
 
 my %orig_sig = %SIG;
 
@@ -11,6 +12,8 @@ $SIG{TERM} = $orig_sig{TERM} = sub {TERM};
 # perl < 5.8.9 won't set a %SIG entry to undef, it sets it to ''
 %orig_sig = map { defined $_ ? $_ : '' } %orig_sig
     if $] < 5.008009;
+
+$orig_sig{USR1} = 'IGNORE' if $^O eq 'MSWin32';
 
 my $sub = CGI::Compile->compile("t/hello.cgi");
 

@@ -1,8 +1,13 @@
 #!perl
 
-use Test::More tests => 1;
 use t::Capture;
 use CGI::Compile;
+
+use Test::More $^O eq 'MSWin32' ? (
+    skip_all => 'not supported on Win32') 
+: (
+    tests => 1
+);
 
 my $sub = CGI::Compile->compile(\<<'EOF');
 $SIG{QUIT} = sub{print "QUIT\n"};
