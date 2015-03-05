@@ -2,7 +2,7 @@ use Test::More;
 use Test::Requires qw(CGI);
 use t::Capture;
 use CGI::Compile;
-no warnings 'signal'; # for MSWin32
+#no warnings 'signal'; # for MSWin32
 
 my %orig_sig = %SIG;
 
