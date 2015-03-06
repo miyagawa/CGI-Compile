@@ -12,7 +12,7 @@ sub _eval {
     eval $_[0];
 }
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 use Cwd;
 use File::Basename;

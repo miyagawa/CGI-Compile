@@ -1,6 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
+
+0.19  2015-03-06 11:33:32 PST
         - fix signal related test fails on Win32 (rkitover) #16
 
 0.18  2014-10-27 15:16:55 PDT
