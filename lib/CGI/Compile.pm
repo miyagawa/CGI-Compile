@@ -137,7 +137,8 @@ sub compile {
         sub {
             my @args = @_;
             # this is necessary for MSWin32
-            local $SIG{__WARN__} = sub { warn(@_) unless $_[0] =~ /^No such signal/ };
+            my $orig_warn = $SIG{__WARN__} || sub { warn(@_) };
+            local $SIG{__WARN__} = sub { $orig_warn->(@_) unless $_[0] =~ /^No such signal/ };
             $code->($self, $data, $path, $dir, \@args)
         };
     };

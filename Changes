@@ -1,6 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
+        - chain to original $SIG{__WARN__} when suppressing signal warnings on
+          Win32 (rkitover) #16
 
 0.19  2015-03-06 11:33:32 PST
         - fix signal related test fails on Win32 (rkitover) #16
