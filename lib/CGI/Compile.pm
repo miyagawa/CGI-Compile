@@ -3,21 +3,15 @@ package CGI::Compile;
 use strict;
 use 5.008_001;
 
-# this helper function is placed at the top of the file to
-# hide variables in this file from the generated sub.
-sub _eval {
-    no strict;
-    no warnings;
-
-    eval $_[0];
-}
-
 our $VERSION = '0.19';
 
 use Cwd;
 use File::Basename;
 use File::Spec::Functions;
 use File::pushd;
+use File::Temp;
+use File::Spec;
+use File::Path;
 
 our $RETURN_EXIT_VAL = undef;
 
@@ -129,7 +123,7 @@ sub compile {
         local @SIG{keys %SIG} = @{[]} = values %SIG;
         local $USE_REAL_EXIT = 0;
 
-        my $code = _eval $eval;
+        my $code = $self->_eval($eval);
         my $exception = $@;
 
         die "Could not compile $script: $exception" if $exception;
@@ -168,6 +162,36 @@ sub _build_package {
 
     $package = $self->{namespace_root} . "::$package";
     return $package;
+}
+
+# we use a tmpdir chmodded to 0700 so that the tempfiles are secure
+my $tmp_dir = File::Spec->catfile(File::Spec->tmpdir, "cgi_compile_$$");
+
+sub _eval {
+    my $code = \$_[1];
+
+    if (! -d $tmp_dir) {
+        mkdir $tmp_dir          or die "Could not mkdir $tmp_dir: $!";
+        chmod 0700, $tmp_dir    or die "Could not chmod 0700 $tmp_dir: $!";
+    }
+
+    my ($fh, $fname) = File::Temp::tempfile('cgi_compile_XXXXX',
+        UNLINK => 1, SUFFIX => '.pm', DIR => $tmp_dir);
+
+    print $fh $$code;
+    close $fh;
+
+    my $sub = require $fname;
+
+    unlink $fname or die "Could not delete $fname: $!";
+
+    return $sub;
+}
+
+END {
+    if (-d $tmp_dir) {
+        File::Path::remove_tree($tmp_dir);
+    }
 }
 
 1;
