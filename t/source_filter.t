@@ -14,6 +14,6 @@ if ($@) {
 }
 
 my $stdout = capture_out($sub);
-like $stdout, qr/^switch works/, 'source filter works in CGI';
+is $stdout, "switch works\n", 'source filter works in CGI';
 
 done_testing;

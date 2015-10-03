@@ -181,7 +181,7 @@ sub _eval {
     print $fh $$code;
     close $fh;
 
-    my $sub = require $fname;
+    my $sub = do $fname;
 
     unlink $fname or die "Could not delete $fname: $!";
 
@@ -409,6 +409,92 @@ return C<-1>.
 
 If the subroutine C<CGI::initialize_globals> is defined at script runtime,
 it is called first thing by the compiled coderef.
+
+=head1 PROTECTED METHODS
+
+These methods define some of the internal functionality of
+L<CGI::Compile> and may be overloaded if you need to subclass this
+module.
+
+=head2 _read_source
+
+Reads the source of a CGI script.
+
+Parameters:
+
+=over 4
+
+=item * C<$file_path>
+
+Path to the file the contents of which is to be read.
+
+=back
+
+Returns:
+
+=over 4
+
+=item * C<$source>
+
+The contents of the file as a scalar string.
+
+=back
+
+=head2 _build_package
+
+Creates a package name into which the CGI coderef will be compiled into,
+prepended with C<$self->{namespace_root}>.
+
+Parameters:
+
+=over 4
+
+=item * C<$file_path>
+
+The path to the CGI script file, the package name is generated based on
+this path.
+
+=back
+
+Returns:
+
+=over 4
+
+=item * C<$package>
+
+The generated package name.
+
+=back
+
+=head2 _eval
+
+Takes the generated perl code, which is the contents of the CGI script
+and some other things we add to make everything work smoother, and
+returns the evaluated coderef.
+
+Currently this is done by writing out the code to a temp file and
+reading it in with L<perlfunc/do> so that there are no issues with
+lexical context or source filters.
+
+Parameters:
+
+=over 4
+
+=item * C<$code>
+
+The generated code that will make the coderef for the CGI.
+
+=back
+
+Returns:
+
+=over 4
+
+=item * C<$coderef>
+
+The coderef that is the resulting of evaluating the generated perl code.
+
+=back
 
 =head1 AUTHOR
 

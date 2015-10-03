@@ -4,6 +4,6 @@ use strict;
 use warnings;
 use Switch;
 
-switch (4) {
-    case 4      { print "switch works\n" }
+switch (42) {
+    case 42 { print "switch works\n" }
 }
