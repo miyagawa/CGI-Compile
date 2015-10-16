@@ -198,23 +198,85 @@ return `-1`.
 If the subroutine `CGI::initialize_globals` is defined at script runtime,
 it is called first thing by the compiled coderef.
 
+# PROTECTED METHODS
+
+These methods define some of the internal functionality of
+[CGI::Compile](https://metacpan.org/pod/CGI::Compile) and may be overloaded if you need to subclass this
+module.
+
+## \_read\_source
+
+Reads the source of a CGI script.
+
+Parameters:
+
+- `$file_path`
+
+    Path to the file the contents of which is to be read.
+
+Returns:
+
+- `$source`
+
+    The contents of the file as a scalar string.
+
+## \_build\_package
+
+Creates a package name into which the CGI coderef will be compiled into,
+prepended with `$self-`{namespace\_root}>.
+
+Parameters:
+
+- `$file_path`
+
+    The path to the CGI script file, the package name is generated based on
+    this path.
+
+Returns:
+
+- `$package`
+
+    The generated package name.
+
+## \_eval
+
+Takes the generated perl code, which is the contents of the CGI script
+and some other things we add to make everything work smoother, and
+returns the evaluated coderef.
+
+Currently this is done by writing out the code to a temp file and
+reading it in with ["do" in perlfunc](https://metacpan.org/pod/perlfunc#do) so that there are no issues with
+lexical context or source filters.
+
+Parameters:
+
+- `$code`
+
+    The generated code that will make the coderef for the CGI.
+
+Returns:
+
+- `$coderef`
+
+    The coderef that is the resulting of evaluating the generated perl code.
+
 # AUTHOR
 
-Tatsuhiko Miyagawa <miyagawa@bulknews.net>
+Tatsuhiko Miyagawa &lt;miyagawa@bulknews.net>
 
 # CONTRIBUTORS
 
-Rafael Kitover <rkitover@cpan.org>
+Rafael Kitover &lt;rkitover@cpan.org>
 
-Hans Dieter Pearcey <hdp@cpan.org>
+Hans Dieter Pearcey &lt;hdp@cpan.org>
 
-kocoureasy <igor.bujna@post.cz>
+kocoureasy &lt;igor.bujna@post.cz>
 
-Torsten Förtsch <torsten.foertsch@gmx.net>
+Torsten Förtsch &lt;torsten.foertsch@gmx.net>
 
 # COPYRIGHT & LICENSE
 
-Copyright (c) 2009 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
+Copyright (c) 2009 Tatsuhiko Miyagawa &lt;miyagawa@bulknews.net>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
