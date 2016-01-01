@@ -97,7 +97,7 @@ sub compile {
         "\n};",
         q{
         {
-            no warnings qw(uninitialized numeric);
+            no warnings qw(uninitialized numeric pack);
             my $self     = shift;
             my $exit_val = unpack('C', pack('C', sprintf('%.0f', $rv)));
             if ($@) {
