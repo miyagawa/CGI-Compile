@@ -2,6 +2,7 @@ Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
         - fix warnings with non-numeric return values (rkitover) #18
+        - fix uninitialized value in open warning on perl 5.8 (rkitover)
 
 0.20  2015-10-16 13:55:13 PDT
         - Compile Perl code via a tempfile to support source filters (rkitover) #17

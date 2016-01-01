@@ -72,7 +72,7 @@ sub compile {
     my $warnings = $code =~ /^#!.*\s-w\b/ ? 1 : 0;
     $code =~ s/^__END__\r?\n.*//ms;
     $code =~ s/^__DATA__\r?\n(.*)//ms;
-    my $data = $1;
+    my $data = defined $1 ? $1 : '';
 
     # TODO handle nph and command line switches?
     my $eval = join '',
