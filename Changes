@@ -1,6 +1,8 @@
 Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
+
+0.21  2016-01-01 13:13:10 PST
         - fix warnings with non-numeric return values (rkitover) #18
         - fix uninitialized value in open warning on perl 5.8 (rkitover)
 
