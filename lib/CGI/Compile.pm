@@ -96,6 +96,8 @@ sub compile {
         $code,
         "\n};",
         q{
+        {
+            no warnings qw(uninitialized numeric);
             my $self     = shift;
             my $exit_val = unpack('C', pack('C', sprintf('%.0f', $rv)));
             if ($@) {
@@ -113,6 +115,7 @@ sub compile {
             }
 
             return $exit_val;
+        }
         },
         '};';
 
