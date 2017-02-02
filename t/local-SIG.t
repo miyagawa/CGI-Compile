@@ -2,12 +2,17 @@
 
 use t::Capture;
 use CGI::Compile;
+use POSIX qw(:signal_h);
 
 use Test::More $^O eq 'MSWin32' ? (
     skip_all => 'not supported on Win32') 
 : (
     tests => 1
 );
+
+unless (defined sigprocmask(SIG_UNBLOCK, POSIX::SigSet->new(SIGQUIT))) {
+    die "Could not unblock SIGQUIT\n";
+}
 
 my $sub = CGI::Compile->compile(\<<'EOF');
 $SIG{QUIT} = sub{print "QUIT\n"};
