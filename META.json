@@ -4,7 +4,7 @@
       "Tatsuhiko Miyagawa <miyagawa@bulknews.net>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.042, Dist::Milla version v1.0.15, CPAN::Meta::Converter version 2.150005",
+   "generated_by" : "Dist::Milla version v1.0.17, Dist::Zilla version 6.008, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -27,11 +27,14 @@
       "configure" : {
          "requires" : {
             "Module::Build::Tiny" : "0.034"
+         },
+         "suggests" : {
+            "JSON::PP" : "2.27300"
          }
       },
       "develop" : {
          "requires" : {
-            "Dist::Milla" : "v1.0.15",
+            "Dist::Milla" : "v1.0.17",
             "Test::Pod" : "1.41"
          }
       },
@@ -61,13 +64,16 @@
          "web" : "https://github.com/miyagawa/CGI-Compile"
       }
    },
-   "version" : "0.21",
+   "version" : "0.22",
    "x_contributors" : [
+      "Hans Dieter Pearcey <hdp@cpan.org>",
       "kocoureasy <igor.bujna@post.cz>",
       "lestrrat <lestrrat+github@gmail.com>",
+      "Pavel Mateja <pavel@verotel.cz>",
       "Rafael Kitover <rkitover@cpan.org>",
       "Rafael Kitover <rkitover@gmail.com>",
-      "Torsten Förtsch <torsten@binary.com>"
-   ]
+      "Torsten F\u00f6rtsch <torsten@binary.com>"
+   ],
+   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0225"
 }
 

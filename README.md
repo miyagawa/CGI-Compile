@@ -262,21 +262,21 @@ Returns:
 
 # AUTHOR
 
-Tatsuhiko Miyagawa &lt;miyagawa@bulknews.net>
+Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
 # CONTRIBUTORS
 
-Rafael Kitover &lt;rkitover@cpan.org>
+Rafael Kitover <rkitover@cpan.org>
 
-Hans Dieter Pearcey &lt;hdp@cpan.org>
+Hans Dieter Pearcey <hdp@cpan.org>
 
-kocoureasy &lt;igor.bujna@post.cz>
+kocoureasy <igor.bujna@post.cz>
 
-Torsten Förtsch &lt;torsten.foertsch@gmx.net>
+Torsten Förtsch <torsten.foertsch@gmx.net>
 
 # COPYRIGHT & LICENSE
 
-Copyright (c) 2009 Tatsuhiko Miyagawa &lt;miyagawa@bulknews.net>
+Copyright (c) 2009 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
