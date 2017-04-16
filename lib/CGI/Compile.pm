@@ -62,7 +62,8 @@ sub compile {
     if (ref $script eq 'SCALAR') {
         $code = $$script;
     } else {
-        $code = $self->_read_source($script);
+        local(@ARGV, $/) = $script;
+        $code = <>;
         $path = Cwd::abs_path($script);
         $dir  = File::Basename::dirname($path);
     }
@@ -120,7 +121,7 @@ sub compile {
         '};';
 
 
-    my $sub = do {
+    do {
         no warnings 'uninitialized'; # for 5.8
         # NOTE: this is a workaround to fix a problem in Perl 5.10
         local @SIG{keys %SIG} = @{[]} = values %SIG;
@@ -139,15 +140,6 @@ sub compile {
             $code->($self, $data, $path, $dir, \@args)
         };
     };
-
-    return $sub;
-}
-
-sub _read_source {
-    my($self, $file) = @_;
-
-    open my $fh, "<", $file or die "$file: $!";
-    return do { local $/; <$fh> };
 }
 
 sub _build_package {
@@ -158,13 +150,12 @@ sub _build_package {
     my $package = join '_', grep { defined && length } $volume, @dirs, $file;
 
     # Escape everything into valid perl identifiers
-    $package =~ s/([^A-Za-z0-9_])/sprintf("_%2x", unpack("C", $1))/eg;
+    $package =~ s/(\W)/sprintf("_%2x", unpack("C", $1))/eg;
 
     # make sure that the sub-package doesn't start with a digit
     $package =~ s/^(\d)/_$1/;
 
-    $package = $self->{namespace_root} . "::$package";
-    return $package;
+    $package = "$self->{namespace_root}::$package";
 }
 
 # we use a tmpdir chmodded to 0700 so that the tempfiles are secure
@@ -523,5 +514,3 @@ it under the same terms as Perl itself.
 =head1 SEE ALSO
 
 L<ModPerl::RegistryCooker> L<CGI::Emulate::PSGI>
-
-=cut
