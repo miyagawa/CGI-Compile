@@ -1,8 +1,8 @@
 use strict;
 use Test::More tests => 2;
 use CGI::Compile;
-use t::Capture;
 use lib "t";
+use Capture;
 use Exit;
 
 my $sub = CGI::Compile->compile("t/exit.cgi");

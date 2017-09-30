@@ -1,5 +1,6 @@
 use Test::More;
-use t::Capture;
+use lib 't';
+use Capture;
 use CGI::Compile;
 
 my $sub = CGI::Compile->compile("t/warnings.cgi");

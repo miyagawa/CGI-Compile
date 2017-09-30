@@ -1,6 +1,7 @@
 use Test::More;
 use Test::Requires qw(CGI);
-use t::Capture;
+use lib 't';
+use Capture;
 use CGI::Compile;
 #no warnings 'signal'; # for MSWin32
 

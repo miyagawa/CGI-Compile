@@ -1,6 +1,8 @@
 use Test::More;
 use CGI::Compile;
-use t::Capture;
+
+use lib 't';
+use Capture;
 
 {
     my $sub = CGI::Compile->compile("t/data.cgi");

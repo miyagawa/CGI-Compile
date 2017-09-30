@@ -1,6 +1,7 @@
 #!perl
 
-use t::Capture;
+use lib 't';
+use Capture;
 use CGI::Compile;
 use POSIX qw(:signal_h);
 

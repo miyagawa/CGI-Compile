@@ -1,6 +1,7 @@
 use Test::More;
 use Test::Requires qw(Switch);
-use t::Capture;
+use lib 't';
+use Capture;
 use CGI::Compile;
 
 my $sub = eval {

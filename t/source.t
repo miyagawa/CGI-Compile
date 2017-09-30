@@ -1,6 +1,7 @@
 use Test::More;
 use CGI::Compile;
-use t::Capture;
+use lib 't';
+use Capture;
 
 {
     my $str =<<EOL;

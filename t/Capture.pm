@@ -1,4 +1,5 @@
-package t::Capture;
+package # Hide from PAUSE
+  Capture;
 use base qw(Exporter);
 our @EXPORT = qw(capture_out);
 
