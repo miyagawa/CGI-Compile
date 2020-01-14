@@ -167,11 +167,14 @@ sub _build_package {
     return $package;
 }
 
-# we use a tmpdir chmodded to 0700 so that the tempfiles are secure
-my $tmp_dir = File::Spec->catfile(File::Spec->tmpdir, "cgi_compile_$$");
-
+# define tmp_dir value later on first usage, otherwise all children
+# share the same directory when forked
+my $tmp_dir;
 sub _eval {
     my $code = \$_[1];
+
+    # we use a tmpdir chmodded to 0700 so that the tempfiles are secure
+    $tmp_dir ||= File::Spec->catfile(File::Spec->tmpdir, "cgi_compile_$$");
 
     if (! -d $tmp_dir) {
         mkdir $tmp_dir          or die "Could not mkdir $tmp_dir: $!";
@@ -192,7 +195,7 @@ sub _eval {
 }
 
 END {
-    if (-d $tmp_dir) {
+    if ($tmp_dir and -d $tmp_dir) {
         File::Path::remove_tree($tmp_dir);
     }
 }
