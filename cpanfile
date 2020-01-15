@@ -6,4 +6,7 @@ on test => sub {
     requires 'Test::NoWarnings';
     requires 'Test::Requires';
     requires 'Capture::Tiny';
+    requires 'Try::Tiny';
+    requires 'CGI';
+    requires 'Switch';
 };

@@ -1,5 +1,5 @@
 use Test::More;
-use Test::Requires qw(Switch);
+use Switch;
 use Capture::Tiny 'capture_stdout';
 use CGI::Compile;
 

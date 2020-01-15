@@ -1,5 +1,5 @@
 use Test::More;
-use Test::Requires qw(CGI);
+use CGI;
 use Capture::Tiny 'capture_stdout';
 use CGI::Compile;
 #no warnings 'signal'; # for MSWin32
