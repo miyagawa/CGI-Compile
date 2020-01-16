@@ -13,12 +13,12 @@ CGI::Compile is a utility to compile CGI scripts into a code
 reference that can run many times on its own namespace, as long as the
 script is ready to run on a persistent environment.
 
-**NOTE:** for best results, load [CGI::Compile](https://metacpan.org/pod/CGI::Compile) before any modules used by your
+**NOTE:** for best results, load [CGI::Compile](https://metacpan.org/pod/CGI%3A%3ACompile) before any modules used by your
 CGIs.
 
 # RUN ON PSGI
 
-Combined with [CGI::Emulate::PSGI](https://metacpan.org/pod/CGI::Emulate::PSGI), your CGI script can be turned
+Combined with [CGI::Emulate::PSGI](https://metacpan.org/pod/CGI%3A%3AEmulate%3A%3APSGI), your CGI script can be turned
 into a persistent PSGI application like:
 
     use CGI::Emulate::PSGI;
@@ -201,7 +201,7 @@ it is called first thing by the compiled coderef.
 # PROTECTED METHODS
 
 These methods define some of the internal functionality of
-[CGI::Compile](https://metacpan.org/pod/CGI::Compile) and may be overloaded if you need to subclass this
+[CGI::Compile](https://metacpan.org/pod/CGI%3A%3ACompile) and may be overloaded if you need to subclass this
 module.
 
 ## \_read\_source
@@ -283,4 +283,4 @@ it under the same terms as Perl itself.
 
 # SEE ALSO
 
-[ModPerl::RegistryCooker](https://metacpan.org/pod/ModPerl::RegistryCooker) [CGI::Emulate::PSGI](https://metacpan.org/pod/CGI::Emulate::PSGI)
+[ModPerl::RegistryCooker](https://metacpan.org/pod/ModPerl%3A%3ARegistryCooker) [CGI::Emulate::PSGI](https://metacpan.org/pod/CGI%3A%3AEmulate%3A%3APSGI)
