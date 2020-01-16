@@ -6,7 +6,7 @@ use warnings;
 use Test::More $^O eq 'MSWin32' ? (
     skip_all => 'no fork() on Win32')
 : (
-    tests => 3600
+    tests => $ENV{AUTOMATED_TESTING} ? 3600 : 75
 );
 use CGI;
 use CGI::Compile;
@@ -24,10 +24,11 @@ $SIG{CHLD} = sub {
     }
 };
 
-for (1..400) {
+# 400 iterations when smoking, 25 otherwise.
+for (1..($ENV{AUTOMATED_TESTING} ? 400 : 25)) {
     my $errors = capture_stderr {
-        # Use eight simultaneous processes.
-        for (1..8) {
+        # Use 8 simultaneous processes when smoking, 2 otherwise.
+        for (1..($ENV{AUTOMATED_TESTING} ? 8 : 2)) {
             defined(my $child = fork()) or die "fork() failed: $!";
 
             if ($child == 0) { # child
