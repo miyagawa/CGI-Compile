@@ -516,6 +516,8 @@ kocoureasy E<lt>igor.bujna@post.czE<gt>
 
 Torsten Förtsch E<lt>torsten.foertsch@gmx.netE<gt>
 
+Jörn Reder E<lt>jreder@dimedis.deE<gt>
+
 =head1 COPYRIGHT & LICENSE
 
 Copyright (c) 2020 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>

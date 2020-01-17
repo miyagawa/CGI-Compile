@@ -264,16 +264,6 @@ Returns:
 
 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
-# CONTRIBUTORS
-
-Rafael Kitover <rkitover@cpan.org>
-
-Hans Dieter Pearcey <hdp@cpan.org>
-
-kocoureasy <igor.bujna@post.cz>
-
-Torsten Förtsch <torsten.foertsch@gmx.net>
-
 # COPYRIGHT & LICENSE
 
 Copyright (c) 2020 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
