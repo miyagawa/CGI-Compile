@@ -518,7 +518,7 @@ Torsten Förtsch E<lt>torsten.foertsch@gmx.netE<gt>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2009 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
+Copyright (c) 2020 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

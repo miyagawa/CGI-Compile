@@ -1,6 +1,7 @@
 Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
+        - fix race condition in temp dir creation (jr-dimedis) #24
 
 0.22  2017-02-02 09:59:06 PST
         - fix tests in signal-masked environment (lemrouch) #20
