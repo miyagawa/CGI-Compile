@@ -20,4 +20,5 @@ on develop => sub {
     requires 'Dist::Zilla::PluginBundle::Milla';
     requires 'CGI::Emulate::PSGI';
     requires 'Plack::Test';
+    requires 'Test::Pod';
 };
