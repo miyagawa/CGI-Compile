@@ -518,6 +518,10 @@ Torsten Förtsch E<lt>torsten.foertsch@gmx.netE<gt>
 
 Jörn Reder E<lt>jreder@dimedis.deE<gt>
 
+Pavel Mateja E<lt>pavel@verotel.czE<gt>
+
+lestrrat E<lt>lestrrat+github@gmail.comE<gt>
+
 =head1 COPYRIGHT & LICENSE
 
 Copyright (c) 2020 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
