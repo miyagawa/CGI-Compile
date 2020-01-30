@@ -508,7 +508,7 @@ Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
 
 =head1 CONTRIBUTORS
 
-Rafael Kitover E<lt>rkitover@cpan.orgE<gt>
+Rafael Kitover E<lt>rkitover@gmail.comE<gt>
 
 Hans Dieter Pearcey E<lt>hdp@cpan.orgE<gt>
 
