@@ -1,6 +1,9 @@
 Revision history for Perl extension CGI::Compile
 
 {{$NEXT}}
+	- use better packages/subnames for coderefs
+	- add all CONTRIBUTORS to POD
+	- add test for working alarm signal in CGIs
 
 0.23  2020-01-17 10:31:33 UTC
         - fix race condition in temp dir creation (jr-dimedis) #24
