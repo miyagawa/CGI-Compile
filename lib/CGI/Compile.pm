@@ -495,7 +495,7 @@ The generated package name.
 The generated coderef name, based on the file name (without directory) of the
 CGI file path.
 
-=over 4
+=back
 
 =head2 _eval
 
