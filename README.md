@@ -220,10 +220,11 @@ Returns:
 
     The contents of the file as a scalar string.
 
-## \_build\_package
+## \_build\_subname
 
-Creates a package name into which the CGI coderef will be compiled into,
-prepended with `$self-`{namespace\_root}>.
+Creates a package name and coderef name into which the CGI coderef will be
+compiled into. The package name will be prepended with
+`$self-`{namespace\_root}>.
 
 Parameters:
 
@@ -237,6 +238,11 @@ Returns:
 - `$package`
 
     The generated package name.
+
+- `$subname`
+
+    The generated coderef name, based on the file name (without directory) of the
+    CGI file path.
 
 ## \_eval
 
