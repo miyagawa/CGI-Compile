@@ -3,7 +3,7 @@ package CGI::Compile;
 use strict;
 use 5.008_001;
 
-our $VERSION = '0.24';
+our $VERSION = '0.25';
 
 use Cwd;
 use File::Basename;
