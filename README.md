@@ -288,7 +288,7 @@ lestrrat &lt;lestrrat+github@gmail.com>
 
 # COPYRIGHT & LICENSE
 
-Copyright (c) 2020 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
+Copyright (c) 2023 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
